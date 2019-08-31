@@ -1,0 +1,76 @@
+<head>
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+        <style>
+        
+        #graph {
+  
+            width:100%;
+        }
+
+        </style>
+
+      </head>
+      <body>
+      
+        <div id="graph"></div>
+        <div>
+          <button id="runProcess">Run</button>
+          <button id="stopRun">Stop</button>
+        </div>
+        <script>
+        
+        var monitor;
+
+        function rand() {
+            return Math.random();
+          }
+          
+        (function initPlot(){    
+
+          Plotly.plot('graph', [{
+            y: [1,2,3].map(rand),
+            mode: 'lines+markers', 
+            marker: {color: 'blue', size: 8},
+            line: {width: 4}
+          }, {
+            y: [1,2,3].map(rand),
+            mode: 'lines+markers',
+            marker: {color: 'gray', size:8},
+            line: {width: 4}
+          }, {
+            y: [0.5,0.5,0.5],
+            mode: 'lines',
+            opacity: 0.5,
+            marker: {color: 'red', size:8},
+            line: {width: 2}
+          }]);
+        })();
+          
+        function addData() {
+            Plotly.extendTraces('graph', {
+              y: [[rand()], [rand()],[0.5]]
+            }, [0, 1, 2])
+        }
+
+        function startProc(){
+
+            monitor = setInterval(addData, 1500);
+        }
+
+        function stopProc(){
+
+            clearInterval(monitor);
+        }
+
+        (function addListens(){
+
+            document.getElementById("runProcess").addEventListener("click", startProc);
+
+            document.getElementById("stopRun").addEventListener("click", stopProc);
+        })();
+          
+           
+        </script>
+          
+      </body>
